@@ -1,19 +1,45 @@
 ---
-
 - hosts: all
   become: true
   tasks:
 
-  - name: update repository
-    apt:
-     update_cache: yes
+    # ---------------------------------------------------
+    # Ubuntu tasks
+    # ---------------------------------------------------
+    - name: Update repository on Ubuntu
+      apt:
+        update_cache: yes
+      when: ansible_distribution == "Ubuntu"
 
-  - name: install apache2 package
-    apt: 
-     name: apache2
-     state: latest
+    - name: Install apache2 on Ubuntu
+      apt:
+        name: apache2
+        state: latest
+      when: ansible_distribution == "Ubuntu"
 
-  - name: add php support
-    apt:
-     name: libapache2-mod-php
-     state: latest
+    - name: Add PHP support on Ubuntu
+      apt:
+        name: libapache2-mod-php
+        state: latest
+      when: ansible_distribution == "Ubuntu"
+
+    # ---------------------------------------------------
+    # Amazon Linux tasks
+    # ---------------------------------------------------
+    - name: Update repository on Amazon Linux
+      dnf:
+        update_cache: yes
+      when: ansible_distribution == "Amazon"
+
+    - name: Install httpd on Amazon Linux
+      dnf:
+        name: httpd
+        state: latest
+      when: ansible_distribution == "Amazon"
+
+    - name: Add PHP support on Amazon Linux
+      dnf:
+        name: php
+        state: latest
+      when: ansible_distribution == "Amazon"
+
